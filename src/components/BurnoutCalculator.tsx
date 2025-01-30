@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -9,9 +9,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { InfoIcon, Share2Icon } from "lucide-react";
+import { InfoIcon, Share2Icon, TwitterIcon, LinkedinIcon, DownloadIcon } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { motion } from "framer-motion";
+import html2canvas from "html2canvas";
 
 interface BurnoutInputs {
   hoursWorked: number;
@@ -27,6 +28,7 @@ const BurnoutCalculator = () => {
   });
   const [showResults, setShowResults] = useState(false);
   const { toast } = useToast();
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const calculateRiskScore = () => {
     const workLoad = inputs.hoursWorked / 40; // normalized to standard work week
@@ -49,31 +51,46 @@ const BurnoutCalculator = () => {
     return "2-4 weeks if patterns continue";
   };
 
-  const handleShare = () => {
+  const handleShare = async (platform: 'x' | 'linkedin' | 'download') => {
     const score = calculateRiskScore();
     const { level } = getRiskLevel(score);
-    const text = `I just checked my burnout risk level using the Burnout Calculator. My risk level is ${level}. Check yours too!`;
-    
-    if (navigator.share) {
-      navigator.share({
-        title: 'Burnout Risk Assessment',
-        text: text,
-        url: window.location.href,
-      }).catch(() => {
-        navigator.clipboard.writeText(text).then(() => {
-          toast({
-            title: "Copied to clipboard",
-            description: "Share link has been copied to your clipboard",
-          });
-        });
-      });
-    } else {
-      navigator.clipboard.writeText(text).then(() => {
-        toast({
-          title: "Copied to clipboard",
-          description: "Share link has been copied to your clipboard",
-        });
-      });
+    const text = `I just checked my burnout risk level using the Burnout Calculator. My risk level is ${level} (${score.toFixed(1)}/10). Check yours too!`;
+    const url = window.location.href;
+
+    switch (platform) {
+      case 'x':
+        window.open(
+          `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
+          '_blank'
+        );
+        break;
+      case 'linkedin':
+        window.open(
+          `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&summary=${encodeURIComponent(text)}`,
+          '_blank'
+        );
+        break;
+      case 'download':
+        if (resultsRef.current) {
+          try {
+            const canvas = await html2canvas(resultsRef.current);
+            const link = document.createElement('a');
+            link.download = 'burnout-assessment.png';
+            link.href = canvas.toDataURL();
+            link.click();
+            toast({
+              title: "Download started",
+              description: "Your assessment has been downloaded as a PNG file",
+            });
+          } catch (error) {
+            toast({
+              title: "Download failed",
+              description: "There was an error downloading your assessment",
+              variant: "destructive",
+            });
+          }
+        }
+        break;
     }
   };
 
@@ -212,7 +229,7 @@ const BurnoutCalculator = () => {
             transition={{ duration: 0.5 }}
           >
             <Card className="p-6 shadow-lg bg-white/80 backdrop-blur-sm">
-              <div className="space-y-6">
+              <div className="space-y-6" ref={resultsRef}>
                 <div className="text-center">
                   <h2 className="text-2xl font-light text-sage-900 mb-2">Your Results</h2>
                   <div className="flex items-center justify-center gap-2">
@@ -225,13 +242,32 @@ const BurnoutCalculator = () => {
                 </div>
 
                 <div className="space-y-4">
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={() => handleShare('x')}
+                      variant="outline"
+                      className="flex-1 border-sage-200 text-sage-700 hover:bg-sage-50"
+                    >
+                      <TwitterIcon className="w-4 h-4 mr-2" />
+                      Share on X
+                    </Button>
+                    <Button
+                      onClick={() => handleShare('linkedin')}
+                      variant="outline"
+                      className="flex-1 border-sage-200 text-sage-700 hover:bg-sage-50"
+                    >
+                      <LinkedinIcon className="w-4 h-4 mr-2" />
+                      Share on LinkedIn
+                    </Button>
+                  </div>
+                  
                   <Button
-                    onClick={handleShare}
+                    onClick={() => handleShare('download')}
                     variant="outline"
                     className="w-full border-sage-200 text-sage-700 hover:bg-sage-50"
                   >
-                    <Share2Icon className="w-4 h-4 mr-2" />
-                    Share Results
+                    <DownloadIcon className="w-4 h-4 mr-2" />
+                    Download Assessment
                   </Button>
 
                   <a
