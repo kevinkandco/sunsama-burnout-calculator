@@ -252,19 +252,19 @@ const BurnoutCalculator = () => {
               <div className="space-y-6">
                 <div className="text-center">
                   <h2 className="text-2xl font-light text-[#6E59A5] mb-8">Your Results</h2>
-                  <div className="flex items-start justify-center gap-6 mb-6">
-                    <span className="text-8xl font-medium text-[#7E69AB] leading-none">
+                  <div className="flex items-start justify-center gap-12 mb-6">
+                    <span className="text-6xl font-medium text-[#7E69AB] leading-none">
                       {calculateRiskScore().toFixed(1)}
                     </span>
-                    <div className="text-left flex flex-col gap-2">
-                      <span className={`text-3xl font-light ${getRiskLevel(calculateRiskScore()).color}`}>
+                    <div className="text-left flex flex-col gap-3">
+                      <span className={`text-2xl font-light ${getRiskLevel(calculateRiskScore()).color}`}>
                         {getRiskLevel(calculateRiskScore()).level} Risk
                       </span>
-                      <div className="space-y-1">
-                        <span className="text-[#8E9196] text-xl font-medium block">
+                      <div className="space-y-2">
+                        <span className="text-[#8E9196] text-lg font-medium block">
                           Expected Impact:
                         </span>
-                        <span className="text-[#7E69AB] text-xl block">
+                        <span className="text-[#7E69AB] text-lg block">
                           {getBurnoutWindow(calculateRiskScore())}
                         </span>
                       </div>
