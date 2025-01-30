@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import {
@@ -13,6 +12,8 @@ import { InfoIcon, Share2Icon, TwitterIcon, LinkedinIcon, DownloadIcon } from "l
 import { useToast } from "@/components/ui/use-toast";
 import { motion } from "framer-motion";
 import html2canvas from "html2canvas";
+import BurnoutRecommendations from "./BurnoutRecommendations";
+import BurnoutVisuals from "./BurnoutVisuals";
 
 interface BurnoutInputs {
   hoursWorked: number;
@@ -227,18 +228,28 @@ const BurnoutCalculator = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
+            className="space-y-8"
           >
-            <Card className="p-6 shadow-lg bg-white/80 backdrop-blur-sm border-[#E5DEFF]">
-              <div className="space-y-6" ref={resultsRef}>
+            <BurnoutVisuals
+              score={calculateRiskScore()}
+              workHours={inputs.hoursWorked}
+              sleepHours={inputs.sleepHours}
+              selfCareHours={inputs.selfCareHours}
+            />
+
+            <Card className="p-6 shadow-lg bg-white/80 backdrop-blur-sm border-[#E5DEFF]" ref={resultsRef}>
+              <div className="space-y-6">
                 <div className="text-center">
                   <h2 className="text-2xl font-light text-[#6E59A5] mb-2">Your Results</h2>
                   <div className="flex items-center justify-center gap-2">
-                    <span className="text-4xl font-medium text-[#7E69AB]">{score.toFixed(1)}</span>
-                    <span className={`text-2xl font-light ${riskLevel.color}`}>
-                      {riskLevel.level} Risk
+                    <span className="text-4xl font-medium text-[#7E69AB]">
+                      {calculateRiskScore().toFixed(1)}
+                    </span>
+                    <span className={`text-2xl font-light ${getRiskLevel(calculateRiskScore()).color}`}>
+                      {getRiskLevel(calculateRiskScore()).level} Risk
                     </span>
                   </div>
-                  <p className="text-[#8E9196] mt-4">{burnoutWindow}</p>
+                  <p className="text-[#8E9196] mt-4">{getBurnoutWindow(calculateRiskScore())}</p>
                 </div>
 
                 <div className="space-y-4">
@@ -281,12 +292,18 @@ const BurnoutCalculator = () => {
                     </Button>
                   </a>
                 </div>
-
-                <p className="text-xs text-center text-[#8E9196]">
-                  Your data is not stored or shared. This assessment is for informational purposes only.
-                </p>
               </div>
             </Card>
+
+            <BurnoutRecommendations
+              workHours={inputs.hoursWorked}
+              sleepHours={inputs.sleepHours}
+              selfCareHours={inputs.selfCareHours}
+            />
+
+            <p className="text-xs text-center text-[#8E9196]">
+              Your data is not stored or shared. This assessment is for informational purposes only.
+            </p>
           </motion.div>
         )}
       </div>
