@@ -251,21 +251,23 @@ const BurnoutCalculator = () => {
             <Card className="p-6 shadow-lg bg-white/80 backdrop-blur-sm border-[#E5DEFF]" ref={resultsRef}>
               <div className="space-y-6">
                 <div className="text-center">
-                  <h2 className="text-2xl font-light text-[#6E59A5] mb-4">Your Results</h2>
-                  <div className="flex items-center justify-center gap-3 mb-6">
-                    <span className="text-6xl font-medium text-[#7E69AB]">
+                  <h2 className="text-2xl font-light text-[#6E59A5] mb-8">Your Results</h2>
+                  <div className="flex items-start justify-center gap-6 mb-6">
+                    <span className="text-8xl font-medium text-[#7E69AB] leading-none">
                       {calculateRiskScore().toFixed(1)}
                     </span>
-                    <div className="text-left">
-                      <span className={`text-2xl font-light ${getRiskLevel(calculateRiskScore()).color} block`}>
+                    <div className="text-left flex flex-col gap-2">
+                      <span className={`text-3xl font-light ${getRiskLevel(calculateRiskScore()).color}`}>
                         {getRiskLevel(calculateRiskScore()).level} Risk
                       </span>
-                      <span className="text-[#8E9196] text-lg font-medium block mt-1">
-                        Expected Impact:
-                      </span>
-                      <span className="text-[#7E69AB] text-lg">
-                        {getBurnoutWindow(calculateRiskScore())}
-                      </span>
+                      <div className="space-y-1">
+                        <span className="text-[#8E9196] text-xl font-medium block">
+                          Expected Impact:
+                        </span>
+                        <span className="text-[#7E69AB] text-xl block">
+                          {getBurnoutWindow(calculateRiskScore())}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
