@@ -15,32 +15,52 @@ interface BurnoutRecommendationsProps {
 const BurnoutRecommendations = ({ workHours, sleepHours, selfCareHours }: BurnoutRecommendationsProps) => {
   const getRecommendations = (): Recommendation[] => {
     const recommendations: Recommendation[] = [];
+    const isHighRisk = workHours > 50 || sleepHours < 6 || selfCareHours < 4;
+    const isModerateRisk = workHours > 45 || sleepHours < 7 || selfCareHours < 7;
 
-    if (workHours > 50) {
+    // Work-specific recommendations for high/moderate risk
+    if (isHighRisk) {
       recommendations.push({
-        title: "Reduce Work Hours",
-        description: "Consider delegating tasks or discussing workload with your supervisor. Long hours significantly increase burnout risk.",
+        title: "Urgent: Discuss Workload",
+        description: "Schedule a meeting with your manager to discuss workload concerns and potential solutions. Consider requesting temporary support or deadline adjustments.",
+      });
+      recommendations.push({
+        title: "Document Impact",
+        description: "Keep a log of how your current workload is affecting your performance and wellbeing. This will help in discussions with management.",
+      });
+    } else if (isModerateRisk) {
+      recommendations.push({
+        title: "Proactive Communication",
+        description: "Share your capacity concerns with your supervisor during your next 1:1. Consider proposing solutions like task prioritization or process improvements.",
+      });
+    }
+
+    // Standard recommendations based on specific metrics
+    if (workHours > 45) {
+      recommendations.push({
+        title: "Optimize Work Hours",
+        description: "Review your task list and identify what can be delegated or postponed. Focus on high-impact activities during your peak productivity hours.",
       });
     }
 
     if (sleepHours < 7) {
       recommendations.push({
-        title: "Improve Sleep Habits",
-        description: "Aim for 7-9 hours of sleep. Create a bedtime routine and maintain consistent sleep schedule.",
+        title: "Improve Sleep Quality",
+        description: "Create a consistent bedtime routine and aim for 7-9 hours of sleep. Consider setting work boundaries to protect your rest time.",
       });
     }
 
     if (selfCareHours < 7) {
       recommendations.push({
-        title: "Increase Self-Care",
-        description: "Schedule regular breaks and dedicate time for activities you enjoy. Even small self-care moments matter.",
+        title: "Prioritize Self-Care",
+        description: "Block dedicated time in your calendar for activities that help you recharge. Treat these as important as work meetings.",
       });
     }
 
     if (recommendations.length === 0) {
       recommendations.push({
-        title: "Maintain Current Balance",
-        description: "You're maintaining good habits! Continue your current routine while staying mindful of any changes.",
+        title: "Maintain Balance",
+        description: "You're maintaining good habits! Continue your current routine while staying mindful of any changes in workload or energy levels.",
       });
     }
 
