@@ -112,25 +112,25 @@ const BurnoutCalculator = () => {
   const burnoutWindow = getBurnoutWindow(score);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sage-50 to-white p-4 sm:p-6 md:p-8">
+    <div className="min-h-screen bg-gradient-to-b from-[#F1F0FB] to-white p-4 sm:p-6 md:p-8">
       <div className="max-w-2xl mx-auto space-y-8 animate-fade-in">
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-light text-sage-900">Burnout Risk Calculator</h1>
-          <p className="text-sage-600 max-w-md mx-auto">
+          <h1 className="text-4xl font-light text-[#6E59A5]">Burnout Risk Calculator</h1>
+          <p className="text-[#8E9196] max-w-md mx-auto">
             Assess your risk of burnout based on your work habits and self-care practices
           </p>
         </div>
 
-        <Card className="p-6 shadow-lg bg-white/80 backdrop-blur-sm">
+        <Card className="p-6 shadow-lg bg-white/80 backdrop-blur-sm border-[#E5DEFF]">
           <div className="space-y-6">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-sage-700 flex items-center gap-2">
+                <label className="text-sm font-medium text-[#7E69AB] flex items-center gap-2">
                   Hours Worked per Week
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger>
-                        <InfoIcon className="h-4 w-4 text-sage-400" />
+                        <InfoIcon className="h-4 w-4 text-[#9b87f5]" />
                       </TooltipTrigger>
                       <TooltipContent>
                         <p>Standard work week is 40 hours</p>
@@ -138,7 +138,7 @@ const BurnoutCalculator = () => {
                     </Tooltip>
                   </TooltipProvider>
                 </label>
-                <span className="text-sm text-sage-500">{inputs.hoursWorked}h</span>
+                <span className="text-sm text-[#8E9196]">{inputs.hoursWorked}h</span>
               </div>
               <Slider
                 value={[inputs.hoursWorked]}
@@ -152,12 +152,12 @@ const BurnoutCalculator = () => {
 
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-sage-700 flex items-center gap-2">
+                <label className="text-sm font-medium text-[#7E69AB] flex items-center gap-2">
                   Average Sleep per Night
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger>
-                        <InfoIcon className="h-4 w-4 text-sage-400" />
+                        <InfoIcon className="h-4 w-4 text-[#9b87f5]" />
                       </TooltipTrigger>
                       <TooltipContent>
                         <p>Recommended sleep is 7-9 hours</p>
@@ -165,7 +165,7 @@ const BurnoutCalculator = () => {
                     </Tooltip>
                   </TooltipProvider>
                 </label>
-                <span className="text-sm text-sage-500">{inputs.sleepHours}h</span>
+                <span className="text-sm text-[#8E9196]">{inputs.sleepHours}h</span>
               </div>
               <Slider
                 value={[inputs.sleepHours]}
@@ -179,12 +179,12 @@ const BurnoutCalculator = () => {
 
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-sage-700 flex items-center gap-2">
+                <label className="text-sm font-medium text-[#7E69AB] flex items-center gap-2">
                   Self-Care Hours per Week
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger>
-                        <InfoIcon className="h-4 w-4 text-sage-400" />
+                        <InfoIcon className="h-4 w-4 text-[#9b87f5]" />
                       </TooltipTrigger>
                       <TooltipContent>
                         <p>Time spent on activities that help you relax and recharge</p>
@@ -192,7 +192,7 @@ const BurnoutCalculator = () => {
                     </Tooltip>
                   </TooltipProvider>
                 </label>
-                <span className="text-sm text-sage-500">{inputs.selfCareHours}h</span>
+                <span className="text-sm text-[#8E9196]">{inputs.selfCareHours}h</span>
               </div>
               <Slider
                 value={[inputs.selfCareHours]}
@@ -207,14 +207,14 @@ const BurnoutCalculator = () => {
             <div className="flex gap-4">
               <Button
                 onClick={handleCalculate}
-                className="w-full bg-sage-500 hover:bg-sage-600 text-white"
+                className="w-full bg-[#9b87f5] hover:bg-[#7E69AB] text-white"
               >
                 Calculate Risk
               </Button>
               <Button
                 onClick={handleReset}
                 variant="outline"
-                className="px-4 text-sage-600 border-sage-200 hover:bg-sage-50"
+                className="px-4 text-[#7E69AB] border-[#E5DEFF] hover:bg-[#F1F0FB]"
               >
                 Reset
               </Button>
@@ -228,17 +228,17 @@ const BurnoutCalculator = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Card className="p-6 shadow-lg bg-white/80 backdrop-blur-sm">
+            <Card className="p-6 shadow-lg bg-white/80 backdrop-blur-sm border-[#E5DEFF]">
               <div className="space-y-6" ref={resultsRef}>
                 <div className="text-center">
-                  <h2 className="text-2xl font-light text-sage-900 mb-2">Your Results</h2>
+                  <h2 className="text-2xl font-light text-[#6E59A5] mb-2">Your Results</h2>
                   <div className="flex items-center justify-center gap-2">
-                    <span className="text-4xl font-medium text-sage-700">{score.toFixed(1)}</span>
+                    <span className="text-4xl font-medium text-[#7E69AB]">{score.toFixed(1)}</span>
                     <span className={`text-2xl font-light ${riskLevel.color}`}>
                       {riskLevel.level} Risk
                     </span>
                   </div>
-                  <p className="text-sage-600 mt-4">{burnoutWindow}</p>
+                  <p className="text-[#8E9196] mt-4">{burnoutWindow}</p>
                 </div>
 
                 <div className="space-y-4">
@@ -246,7 +246,7 @@ const BurnoutCalculator = () => {
                     <Button
                       onClick={() => handleShare('x')}
                       variant="outline"
-                      className="flex-1 border-sage-200 text-sage-700 hover:bg-sage-50"
+                      className="flex-1 border-[#E5DEFF] text-[#7E69AB] hover:bg-[#F1F0FB]"
                     >
                       <TwitterIcon className="w-4 h-4 mr-2" />
                       Share on X
@@ -254,7 +254,7 @@ const BurnoutCalculator = () => {
                     <Button
                       onClick={() => handleShare('linkedin')}
                       variant="outline"
-                      className="flex-1 border-sage-200 text-sage-700 hover:bg-sage-50"
+                      className="flex-1 border-[#E5DEFF] text-[#7E69AB] hover:bg-[#F1F0FB]"
                     >
                       <LinkedinIcon className="w-4 h-4 mr-2" />
                       Share on LinkedIn
@@ -264,7 +264,7 @@ const BurnoutCalculator = () => {
                   <Button
                     onClick={() => handleShare('download')}
                     variant="outline"
-                    className="w-full border-sage-200 text-sage-700 hover:bg-sage-50"
+                    className="w-full border-[#E5DEFF] text-[#7E69AB] hover:bg-[#F1F0FB]"
                   >
                     <DownloadIcon className="w-4 h-4 mr-2" />
                     Download Assessment
@@ -276,13 +276,13 @@ const BurnoutCalculator = () => {
                     rel="noopener noreferrer"
                     className="block"
                   >
-                    <Button className="w-full bg-sage-500 hover:bg-sage-600 text-white">
+                    <Button className="w-full bg-[#9b87f5] hover:bg-[#7E69AB] text-white">
                       Try Sunsama Free
                     </Button>
                   </a>
                 </div>
 
-                <p className="text-xs text-center text-sage-400">
+                <p className="text-xs text-center text-[#8E9196]">
                   Your data is not stored or shared. This assessment is for informational purposes only.
                 </p>
               </div>
