@@ -8,7 +8,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { InfoIcon, Share2Icon, TwitterIcon, LinkedinIcon, DownloadIcon } from "lucide-react";
+import { InfoIcon, Share2Icon, TwitterIcon, LinkedinIcon, DownloadIcon, MailIcon } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { motion } from "framer-motion";
 import html2canvas from "html2canvas";
@@ -52,7 +52,7 @@ const BurnoutCalculator = () => {
     return "2-4 weeks if patterns continue";
   };
 
-  const handleShare = async (platform: 'x' | 'linkedin' | 'download') => {
+  const handleShare = async (platform: 'x' | 'linkedin' | 'download' | 'email') => {
     const score = calculateRiskScore();
     const { level } = getRiskLevel(score);
     const text = `I just checked my burnout risk level using the Burnout Calculator. My risk level is ${level} (${score.toFixed(1)}/10). Check yours too!`;
@@ -91,6 +91,11 @@ const BurnoutCalculator = () => {
             });
           }
         }
+        break;
+      case 'email':
+        const subject = encodeURIComponent("My Burnout Risk Assessment Results");
+        const body = encodeURIComponent(`${text}\n\nTry the calculator yourself at: ${url}`);
+        window.location.href = `mailto:?subject=${subject}&body=${body}`;
         break;
     }
   };
@@ -272,14 +277,24 @@ const BurnoutCalculator = () => {
                     </Button>
                   </div>
                   
-                  <Button
-                    onClick={() => handleShare('download')}
-                    variant="outline"
-                    className="w-full border-[#E5DEFF] text-[#7E69AB] hover:bg-[#F1F0FB]"
-                  >
-                    <DownloadIcon className="w-4 h-4 mr-2" />
-                    Download Assessment
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={() => handleShare('download')}
+                      variant="outline"
+                      className="flex-1 border-[#E5DEFF] text-[#7E69AB] hover:bg-[#F1F0FB]"
+                    >
+                      <DownloadIcon className="w-4 h-4 mr-2" />
+                      Download
+                    </Button>
+                    <Button
+                      onClick={() => handleShare('email')}
+                      variant="outline"
+                      className="flex-1 border-[#E5DEFF] text-[#7E69AB] hover:bg-[#F1F0FB]"
+                    >
+                      <MailIcon className="w-4 h-4 mr-2" />
+                      Share via Email
+                    </Button>
+                  </div>
 
                   <a
                     href="https://sunsama.com"
