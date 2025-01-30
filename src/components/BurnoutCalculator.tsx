@@ -127,7 +127,7 @@ const BurnoutCalculator = () => {
           </p>
         </div>
 
-        <Card className="p-6 shadow-lg bg-white/80 backdrop-blur-sm border-[#E5DEFF]">
+        <Card className={`p-6 shadow-lg bg-white/80 backdrop-blur-sm border-[#E5DEFF] ${showResults ? 'opacity-75' : ''}`}>
           <div className="space-y-6">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -151,8 +151,9 @@ const BurnoutCalculator = () => {
                 min={0}
                 max={100}
                 step={1}
-                onValueChange={(value) => setInputs({ ...inputs, hoursWorked: value[0] })}
-                className="w-full"
+                disabled={showResults}
+                onValueChange={(value) => !showResults && setInputs({ ...inputs, hoursWorked: value[0] })}
+                className={`w-full ${showResults ? 'cursor-not-allowed' : ''}`}
               />
             </div>
 
@@ -178,8 +179,9 @@ const BurnoutCalculator = () => {
                 min={0}
                 max={12}
                 step={0.5}
-                onValueChange={(value) => setInputs({ ...inputs, sleepHours: value[0] })}
-                className="w-full"
+                disabled={showResults}
+                onValueChange={(value) => !showResults && setInputs({ ...inputs, sleepHours: value[0] })}
+                className={`w-full ${showResults ? 'cursor-not-allowed' : ''}`}
               />
             </div>
 
@@ -205,25 +207,28 @@ const BurnoutCalculator = () => {
                 min={0}
                 max={40}
                 step={0.5}
-                onValueChange={(value) => setInputs({ ...inputs, selfCareHours: value[0] })}
-                className="w-full"
+                disabled={showResults}
+                onValueChange={(value) => !showResults && setInputs({ ...inputs, selfCareHours: value[0] })}
+                className={`w-full ${showResults ? 'cursor-not-allowed' : ''}`}
               />
             </div>
 
             <div className="flex gap-4">
-              <Button
-                onClick={handleCalculate}
-                className="w-full bg-[#9b87f5] hover:bg-[#7E69AB] text-white"
-              >
-                Calculate Risk
-              </Button>
-              <Button
-                onClick={handleReset}
-                variant="outline"
-                className="px-4 text-[#7E69AB] border-[#E5DEFF] hover:bg-[#F1F0FB]"
-              >
-                Reset
-              </Button>
+              {!showResults ? (
+                <Button
+                  onClick={handleCalculate}
+                  className="w-full bg-[#9b87f5] hover:bg-[#7E69AB] text-white"
+                >
+                  Calculate Risk
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleReset}
+                  className="w-full bg-[#9b87f5] hover:bg-[#7E69AB] text-white"
+                >
+                  Reset Calculator
+                </Button>
+              )}
             </div>
           </div>
         </Card>
